@@ -16,9 +16,11 @@ import os
 import time
 import random
 import json
+import re
 
 import chromedriver_autoinstaller
 from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -101,9 +103,10 @@ for PROFESSOR_NAME in PROFESSOR_LIST:
   print("교수명이 클릭되었습니다.")
   time.sleep(random.uniform(2, 8))
   ####################################################################################
-
+  
   #################################################################################### - 바디 스크롤
   BODY = DRIVER.find_element(By.TAG_NAME, "body")
+  
   for i in range(20):
     BODY.send_keys(Keys.PAGE_DOWN)
 
@@ -123,6 +126,10 @@ for PROFESSOR_NAME in PROFESSOR_LIST:
     LECTURE_NAME = LECTURE.find_element(By.CLASS_NAME, "name").text
     if (LECTURE.find_element(By.CLASS_NAME, "on").get_attribute("style") == "width: 0%;"):
       print(LECTURE_NAME + " 강의는 평가 정보가 없습니다.")
+      
+      BODY.send_keys(Keys.ARROW_DOWN)
+      BODY.send_keys(Keys.ARROW_DOWN)
+    
       continue
     
     print(LECTURE_NAME, end=" ")
@@ -132,20 +139,51 @@ for PROFESSOR_NAME in PROFESSOR_LIST:
     LECTURE.click() # 강의 클릭
     time.sleep(random.uniform(2, 8))
     
+    LEC_COUNT = DRIVER.find_element(By.CLASS_NAME, "count").text
+    PATTERN = re.compile("\(([^)]+)")
+    VALUE = PATTERN.findall(LEC_COUNT)[0]
+    
+    print("총 " + VALUE[:-1] + "개의 강의평가가 기록되어 있습니다.")
+    
     try:
       WebDriverWait(DRIVER, 10).until(
         EC.element_to_be_clickable((By.CLASS_NAME, "more"))
       ).click() # 강의평 더 보기 클릭
       
       time.sleep(random.uniform(2, 8))
+      
+      # for i in range(20):
+      #   ActionChains(DRIVER).send_keys_to_element(DRIVER.find_element(By.XPATH, "/html/body/div/div/div[2]/div/div[2]"), Keys.PAGE_DOWN)
+
+      # for i in range(20):
+      #   ActionChains(DRIVER).send_keys_to_element(DRIVER.find_element(By.XPATH, "/html/body/div/div/div[2]/div/div[2]"), Keys.PAGE_UP)
+      
+      if int(VALUE[:-1]) > 20:
+        LEC_BODY = DRIVER.find_element(By.TAG_NAME, "body")
+        ActionChains(DRIVER).click_and_hold(DRIVER.find_element(By.CLASS_NAME, "articles")).perform()
+        
+        for i in range(20):
+          LEC_BODY.send_keys(Keys.PAGE_DOWN)
+
+        for i in range(20):
+          LEC_BODY.send_keys(Keys.PAGE_UP)
+      
+      time.sleep(random.uniform(2, 8))
     
       LECTURES_DIV = DRIVER.find_element(By.XPATH, "/html/body/div/div/div[2]/div")
       LECTURES_RE = list(LECTURES_DIV.find_elements(By.CLASS_NAME, "article"))
       API[LECTURE_NAME] = []
+      
       for LECTURE_RE in LECTURES_RE:
         TEXT = LECTURE_RE.find_element(By.CLASS_NAME, "text").text.replace("\n", " ")
         API[LECTURE_NAME].append(TEXT)
         print("평가: " + TEXT)
+        
+        # LEC_BODY.send_keys(Keys.ARROW_DOWN)
+        # LEC_BODY.send_keys(Keys.ARROW_DOWN)
+        # LEC_BODY.send_keys(Keys.ARROW_DOWN)
+        
+        time.sleep(random.uniform(0, 1))
       
       DRIVER.back()
       DRIVER.back()
