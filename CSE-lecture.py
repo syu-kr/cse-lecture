@@ -175,9 +175,11 @@ for PROFESSOR_NAME in PROFESSOR_LIST:
       API[LECTURE_NAME] = []
       
       for LECTURE_RE in LECTURES_RE:
+        YEAR_SEMESTER = LECTURE_RE.find_element(By.CLASS_NAME, "semester").text.strip()
         TEXT = LECTURE_RE.find_element(By.CLASS_NAME, "text").text.replace("\n", " ")
-        API[LECTURE_NAME].append(TEXT)
-        print("평가: " + TEXT)
+        RESULT = "("+ YEAR_SEMESTER + ") : " + TEXT
+        API[LECTURE_NAME].append(RESULT)
+        print(RESULT)
         
         # LEC_BODY.send_keys(Keys.ARROW_DOWN)
         # LEC_BODY.send_keys(Keys.ARROW_DOWN)
@@ -203,7 +205,7 @@ for PROFESSOR_NAME in PROFESSOR_LIST:
   ####################################################################################
 
   #################################################################################### - API
-  with open(PROFESSOR_NAME + ".json", "w", encoding = "utf-8") as f:
+  with open("./data/" +PROFESSOR_NAME + ".json", "w", encoding = "utf-8") as f:
     json.dump(API, f, ensure_ascii = False, indent = 2)
   ####################################################################################
   
