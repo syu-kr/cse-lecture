@@ -73,7 +73,7 @@ WebDriverWait(DRIVER, 10).until(
   EC.element_to_be_clickable((By.XPATH, "//a[contains(@href, \"/lecture\")]"))
 ).click()
 print("최근 강의평이 클릭되었습니다.")
-time.sleep(random.uniform(2, 8))
+time.sleep(random.uniform(2, 3))
 ####################################################################################
 
 for PROFESSOR_NAME in PROFESSOR_LIST:
@@ -86,7 +86,7 @@ for PROFESSOR_NAME in PROFESSOR_LIST:
   SEARCH_BTN.clear()
   SEARCH_BTN.send_keys(PROFESSOR_NAME)
   print("교수명 검색이 입력되었습니다.")
-  time.sleep(random.uniform(2, 8))
+  time.sleep(random.uniform(2, 3))
   ####################################################################################
 
   #################################################################################### - 교수명 검색 클릭
@@ -94,7 +94,7 @@ for PROFESSOR_NAME in PROFESSOR_LIST:
     EC.element_to_be_clickable((By.XPATH, "/html/body/div/div/div[1]/div/form/input[2]"))
   ).click()
   print("교수명 검색이 클릭되었습니다.")
-  time.sleep(random.uniform(2, 8))
+  time.sleep(random.uniform(2, 3))
   ####################################################################################
 
   #################################################################################### - 교수명 클릭
@@ -102,7 +102,7 @@ for PROFESSOR_NAME in PROFESSOR_LIST:
     EC.element_to_be_clickable((By.XPATH, "/html/body/div/div/div[1]/div/div/label[2]"))
   ).click()
   print("교수명이 클릭되었습니다.")
-  time.sleep(random.uniform(2, 8))
+  time.sleep(random.uniform(2, 3))
   ####################################################################################
   
   #################################################################################### - 바디 스크롤
@@ -121,7 +121,7 @@ for PROFESSOR_NAME in PROFESSOR_LIST:
   LECTURE_DIV = DRIVER.find_element(By.XPATH, "/html/body/div/div/div[2]")
   LECTURES = list(LECTURE_DIV.find_elements(By.TAG_NAME, "a"))
   print(f"{PROFESSOR_NAME} 교수님의 강의가 {len(LECTURES)}개 확인되었습니다.")
-  time.sleep(random.uniform(2, 8))
+  time.sleep(random.uniform(2, 3))
 
   for LECTURE in LECTURES:
     LECTURE_NAME = LECTURE.find_element(By.CLASS_NAME, "name").text
@@ -138,7 +138,7 @@ for PROFESSOR_NAME in PROFESSOR_LIST:
     print(LECTURE.find_element(By.CLASS_NAME, "on").get_attribute("style"))
     
     LECTURE.click() # 강의 클릭
-    time.sleep(random.uniform(2, 8))
+    time.sleep(random.uniform(2, 3))
     
     LEC_COUNT = DRIVER.find_element(By.CLASS_NAME, "count").text
     PATTERN = re.compile("\(([^)]+)")
@@ -151,7 +151,7 @@ for PROFESSOR_NAME in PROFESSOR_LIST:
         EC.element_to_be_clickable((By.CLASS_NAME, "more"))
       ).click() # 강의평 더 보기 클릭
       
-      time.sleep(random.uniform(2, 8))
+      time.sleep(random.uniform(2, 3))
       
       # for i in range(20):
       #   ActionChains(DRIVER).send_keys_to_element(DRIVER.find_element(By.XPATH, "/html/body/div/div/div[2]/div/div[2]"), Keys.PAGE_DOWN)
@@ -169,7 +169,7 @@ for PROFESSOR_NAME in PROFESSOR_LIST:
         for i in range(20):
           LEC_BODY.send_keys(Keys.PAGE_UP)
       
-      time.sleep(random.uniform(2, 8))
+      time.sleep(random.uniform(2, 3))
     
       LECTURES_DIV = DRIVER.find_element(By.XPATH, "/html/body/div/div/div[2]/div")
       LECTURES_RE = list(LECTURES_DIV.find_elements(By.CLASS_NAME, "article"))
@@ -194,7 +194,7 @@ for PROFESSOR_NAME in PROFESSOR_LIST:
       BODY.send_keys(Keys.ARROW_DOWN)
       BODY.send_keys(Keys.ARROW_DOWN)
       
-      time.sleep(random.uniform(2, 8))
+      time.sleep(random.uniform(2, 3))
     except:
       print("문제가 발생하였습니다.")
       
