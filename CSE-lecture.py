@@ -49,7 +49,8 @@ PROFESSOR_LIST = [
   "손정혜",
   "주헌식",
   "김현규",
-  "조충희"
+  "조충희",
+  "홍성옥"
 ]
 
 DRIVER_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "./driver/"))
