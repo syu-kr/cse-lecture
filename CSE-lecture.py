@@ -177,7 +177,10 @@ for PROFESSOR_NAME in PROFESSOR_LIST:
       
       LECTURE_NEW_NAME = re.sub(pattern=r"\([^)]*\)", repl="", string=LECTURE_NAME).replace(" ", "")
       
-      if (LECTURE_NEW_NAME not in API):
+      if LECTURE_NEW_NAME == "스포트와IT": LECTURE_NEW_NAME = "스포츠와IT"
+      if LECTURE_NEW_NAME == "스프트웨어공학": LECTURE_NEW_NAME = "소프트웨어공학"
+      
+      if LECTURE_NEW_NAME not in API:
         API[LECTURE_NEW_NAME] = []
       
       for LECTURE_RE in LECTURES_RE:
