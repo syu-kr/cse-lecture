@@ -174,13 +174,18 @@ for PROFESSOR_NAME in PROFESSOR_LIST:
     
       LECTURES_DIV = DRIVER.find_element(By.XPATH, "/html/body/div/div/div[2]/div")
       LECTURES_RE = list(LECTURES_DIV.find_elements(By.CLASS_NAME, "article"))
-      API[LECTURE_NAME] = []
+      
+      LECTURE_NEW_NAME = re.sub(pattern=r"\([^)]*\)", repl="", string=LECTURE_NAME).replace(" ", "")
+      
+      if (LECTURE_NEW_NAME not in API):
+        API[LECTURE_NEW_NAME] = []
       
       for LECTURE_RE in LECTURES_RE:
         YEAR_SEMESTER = LECTURE_RE.find_element(By.CLASS_NAME, "semester").text.strip()
         TEXT = LECTURE_RE.find_element(By.CLASS_NAME, "text").text.replace("\n", " ")
         RESULT = "("+ YEAR_SEMESTER + ") : " + TEXT
-        API[LECTURE_NAME].append(RESULT)
+        
+        API[LECTURE_NEW_NAME].append(RESULT)
         print(RESULT)
         
         # LEC_BODY.send_keys(Keys.ARROW_DOWN)
@@ -207,7 +212,7 @@ for PROFESSOR_NAME in PROFESSOR_LIST:
   ####################################################################################
 
   #################################################################################### - API
-  with open("./data/" +PROFESSOR_NAME + ".json", "w", encoding = "utf-8") as f:
+  with open("./data/" + PROFESSOR_NAME + ".json", "w", encoding = "utf-8") as f:
     json.dump(API, f, ensure_ascii = False, indent = 2)
   ####################################################################################
   
