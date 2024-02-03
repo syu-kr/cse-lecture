@@ -65,7 +65,8 @@ if not os.path.exists(DRIVER_PATH):
 options = Options()
 options.add_argument("--start-maximized")
 
-DRIVER = webdriver.Chrome(service=Service(CHROMIUM_PATH), options = options)
+# DRIVER = webdriver.Chrome(service=Service(CHROMIUM_PATH), options = options)
+DRIVER = webdriver.Chrome()
 DRIVER.get("https://everytime.kr")
 time.sleep(20)
 
