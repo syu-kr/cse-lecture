@@ -29,7 +29,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 
 PROFESSOR_LIST = [
-  "고기림",
+  # "고기림",
   # "김용승", Not Found
   "이근정",
   "최희식",
